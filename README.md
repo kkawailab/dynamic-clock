@@ -68,3 +68,49 @@ pnpm start
 
 - Node.js 18以上
 - pnpm パッケージマネージャー
+
+## 改造のヒント
+
+### 🎨 テーマのカスタマイズ
+
+`dynamic-clock.tsx`の`getThemeGradient`関数を編集して、独自のグラデーションを作成できます：
+
+```typescript
+// 例：新しいテーマの追加
+case "morning":
+  return "from-pink-400 via-orange-300 to-yellow-200" // 既存
+  // return "from-blue-400 via-purple-300 to-pink-200" // カスタム例
+```
+
+### 🌍 世界時計の都市追加
+
+`worldClocks`配列に新しい都市を追加：
+
+```typescript
+const worldClocks: WorldClock[] = [
+  // 既存の都市...
+  { city: "パリ", timezone: "Europe/Paris", time: "" },
+  { city: "ドバイ", timezone: "Asia/Dubai", time: "" }
+]
+```
+
+### ⏰ アラーム機能の拡張
+
+- **繰り返しアラーム**: 曜日指定の繰り返し機能を追加
+- **アラーム音**: Web Audio APIを使用してカスタムサウンドを再生
+- **スヌーズ機能**: 5分後に再度アラームを鳴らす機能
+
+### 🎯 その他のアイデア
+
+1. **アナログ時計表示**: SVGを使用してアナログ時計を追加
+2. **ポモドーロタイマー**: 作業と休憩を管理するタイマー機能
+3. **天気情報表示**: OpenWeather APIと連携して現在の天気を表示
+4. **カレンダー連携**: Google Calendar APIと連携してイベントを表示
+5. **ダークモード**: 手動切り替え可能なダークモードオプション
+
+### 📁 主要ファイルの場所
+
+- **メインコンポーネント**: `/dynamic-clock.tsx`
+- **UIコンポーネント**: `/components/ui/`
+- **スタイル設定**: `/app/globals.css`、`/tailwind.config.ts`
+- **テーマ設定**: `/components/theme-provider.tsx`
