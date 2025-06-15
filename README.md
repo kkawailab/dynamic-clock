@@ -30,10 +30,10 @@
 
 ```bash
 # 依存関係のインストール
-pnpm install
+npm install
 
 # 開発サーバーの起動
-pnpm dev
+npm run dev
 ```
 
 ブラウザで http://localhost:3000 を開いてアプリケーションにアクセスします。
@@ -42,10 +42,17 @@ pnpm dev
 
 ```bash
 # ビルドの実行
-pnpm build
+npm run build
 
 # 本番サーバーの起動
-pnpm start
+npm start
+```
+
+### コード品質のチェック
+
+```bash
+# ESLintでコードをチェック
+npm run lint
 ```
 
 ### アラームの設定方法
@@ -59,15 +66,17 @@ pnpm start
 ## 技術スタック
 
 - **Next.js 15** - Reactフレームワーク
-- **TypeScript** - 型安全性
-- **Tailwind CSS** - スタイリング
+- **React 19** - UIライブラリ
+- **TypeScript 5** - 型安全性
+- **Tailwind CSS 3.4** - スタイリング
 - **shadcn/ui** - UIコンポーネント
 - **Lucide React** - アイコン
+- **ESLint** - コード品質管理
 
 ## システム要件
 
 - Node.js 18以上
-- pnpm パッケージマネージャー
+- npm または yarn パッケージマネージャー
 
 ## 改造のヒント
 
@@ -114,3 +123,27 @@ const worldClocks: WorldClock[] = [
 - **UIコンポーネント**: `/components/ui/`
 - **スタイル設定**: `/app/globals.css`、`/tailwind.config.ts`
 - **テーマ設定**: `/components/theme-provider.tsx`
+- **Next.js設定**: `/next.config.mjs`
+- **TypeScript設定**: `/tsconfig.json`
+- **ESLint設定**: `/.eslintrc.json`
+
+## プロジェクトの特徴
+
+### 🚀 モダンな構成
+
+- **最新のReact 19**とNext.js 15を使用
+- **TypeScript**による厳格な型チェック（strict mode有効）
+- **ESLint**によるコード品質の自動チェック
+- **ES2022**をターゲットとした最新のJavaScript機能
+
+### 🎯 パフォーマンス最適化
+
+- Next.jsの自動画像最適化
+- 効率的なバンドルサイズ（First Load JS: 約100KB）
+- 静的生成によるページの高速読み込み
+
+### 🛠️ 開発体験
+
+- ビルド時の型チェックとリンティング
+- Hot Module Replacement（HMR）による高速開発
+- 明確なプロジェクト構造
