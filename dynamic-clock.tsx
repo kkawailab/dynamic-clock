@@ -35,10 +35,13 @@ export default function DynamicClock() {
   // 状態変数 - 時間とともに変化するデータを保存
 
   // 現在の日付と時刻を保存、毎秒更新される
-  const [currentTime, setCurrentTime] = useState(new Date())
+  const [currentTime, setCurrentTime] = useState<Date | null>(null)
 
   // 表示する視覚テーマを保存（朝、午後、夕方、夜）
   const [theme, setTheme] = useState<TimeTheme>("morning")
+  
+  // Hydrationのためのマウント状態を管理
+  const [mounted, setMounted] = useState(false)
 
   // ユーザーが作成したすべてのアラームを保存
   const [alarms, setAlarms] = useState<Alarm[]>([])
@@ -59,9 +62,17 @@ export default function DynamicClock() {
   ])
 
   // エフェクトフック - 特定の出来事が起こったときにコードを実行
+  
+  // コンポーネントがマウントされたことを追跡
+  useEffect(() => {
+    setMounted(true)
+    setCurrentTime(new Date())
+  }, [])
 
   // このエフェクトは毎秒現在時刻を更新
   useEffect(() => {
+    if (!mounted) return
+    
     // setIntervalは関数をX ミリ秒ごとに繰り返し実行
     // 1000ミリ秒 = 1秒
     const timer = setInterval(() => {
@@ -71,10 +82,12 @@ export default function DynamicClock() {
     // クリーンアップ関数：コンポーネントがページから削除されたときにタイマーを停止
     // これによりメモリリークを防ぐ
     return () => clearInterval(timer)
-  }, []) // 空の依存配列は、コンポーネントが最初に読み込まれたときに一度だけ実行されることを意味
+  }, [mounted]) // mountedが変更されたときに実行
 
   // このエフェクトは現在時刻に基づいて視覚テーマを変更
   useEffect(() => {
+    if (!currentTime) return
+    
     const hour = currentTime.getHours() // 現在の時間を取得（0-23）
     let newTheme: TimeTheme
 
@@ -118,6 +131,8 @@ export default function DynamicClock() {
 
   // このエフェクトはアラームが鳴るべきかどうかをチェック
   useEffect(() => {
+    if (!currentTime) return
+    
     // 現在時刻をHH:MM形式で取得（例：「07:30」）
     const currentTimeString = currentTime.toTimeString().slice(0, 5)
 
@@ -214,7 +229,8 @@ export default function DynamicClock() {
   // フォーマット関数 - ユーザー向けにデータを見やすくする
 
   // 時刻をHH:MM:SS形式でフォーマット（例：「14:30:25」）
-  const formatTime = (date: Date) => {
+  const formatTime = (date: Date | null) => {
+    if (!date) return "--:--:--"
     return date.toLocaleTimeString("en-US", {
       hour12: false, // 24時間形式を使用
       hour: "2-digit", // 常に2桁で表示
@@ -224,7 +240,8 @@ export default function DynamicClock() {
   }
 
   // 日付を日本語スタイルでフォーマット（例：「2024年1月15日月曜日」）
-  const formatDate = (date: Date) => {
+  const formatDate = (date: Date | null) => {
+    if (!date) return "----年--月--日"
     return date.toLocaleDateString("ja-JP", {
       weekday: "long", // 完全な曜日名
       year: "numeric", // 完全な年
@@ -235,6 +252,12 @@ export default function DynamicClock() {
 
   // ユーザーインターフェースをレンダー
   // これがユーザーの画面に表示される内容
+  
+  // コンポーネントがまだマウントされていない場合は何も表示しない
+  if (!mounted) {
+    return null
+  }
+  
   return (
     <div className={getThemeClasses()}>
       <div className="container mx-auto p-6 space-y-8">

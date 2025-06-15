@@ -135,15 +135,26 @@ const worldClocks: WorldClock[] = [
 - **TypeScript**による厳格な型チェック（strict mode有効）
 - **ESLint**によるコード品質の自動チェック
 - **ES2022**をターゲットとした最新のJavaScript機能
+- **Hydration対応**：サーバーサイドレンダリングの最適化
 
 ### 🎯 パフォーマンス最適化
 
 - Next.jsの自動画像最適化
 - 効率的なバンドルサイズ（First Load JS: 約100KB）
 - 静的生成によるページの高速読み込み
+- SSR/CSRの適切な使い分けによるUX向上
 
 ### 🛠️ 開発体験
 
 - ビルド時の型チェックとリンティング
 - Hot Module Replacement（HMR）による高速開発
 - 明確なプロジェクト構造
+- 依存関係の最適化（未使用パッケージの削除）
+
+## 最近の更新
+
+### 2025年6月
+- React 19に対応（vaulパッケージを削除）
+- Hydration errorの修正（クライアントサイドでの時刻レンダリング）
+- プロジェクト名を`dynamic-clock`に統一
+- ビルド時のエラーチェックを有効化
